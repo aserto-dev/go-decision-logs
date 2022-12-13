@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: aserto/decision-logs/v1/decision-logs.proto
+// source: aserto/decision-logs/v2/decision_logs.proto
 
 package decision_logs
 
@@ -40,7 +40,7 @@ func NewDecisionLogsClient(cc grpc.ClientConnInterface) DecisionLogsClient {
 
 func (c *decisionLogsClient) ListDecisionLogs(ctx context.Context, in *ListDecisionLogsRequest, opts ...grpc.CallOption) (*ListDecisionLogsResponse, error) {
 	out := new(ListDecisionLogsResponse)
-	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v1.DecisionLogs/ListDecisionLogs", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v2.DecisionLogs/ListDecisionLogs", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (c *decisionLogsClient) ListDecisionLogs(ctx context.Context, in *ListDecis
 
 func (c *decisionLogsClient) GetDecisionLog(ctx context.Context, in *GetDecisionLogRequest, opts ...grpc.CallOption) (*GetDecisionLogResponse, error) {
 	out := new(GetDecisionLogResponse)
-	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v1.DecisionLogs/GetDecisionLog", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v2.DecisionLogs/GetDecisionLog", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func (c *decisionLogsClient) GetDecisionLog(ctx context.Context, in *GetDecision
 
 func (c *decisionLogsClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error) {
 	out := new(ListUsersResponse)
-	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v1.DecisionLogs/ListUsers", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v2.DecisionLogs/ListUsers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (c *decisionLogsClient) ListUsers(ctx context.Context, in *ListUsersRequest
 
 func (c *decisionLogsClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
 	out := new(GetUserResponse)
-	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v1.DecisionLogs/GetUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v2.DecisionLogs/GetUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (c *decisionLogsClient) GetUser(ctx context.Context, in *GetUserRequest, op
 
 func (c *decisionLogsClient) ExecuteQuery(ctx context.Context, in *ExecuteQueryRequest, opts ...grpc.CallOption) (*ExecuteQueryResponse, error) {
 	out := new(ExecuteQueryResponse)
-	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v1.DecisionLogs/ExecuteQuery", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/aserto.decision_logs.v2.DecisionLogs/ExecuteQuery", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (c *decisionLogsClient) ExecuteQuery(ctx context.Context, in *ExecuteQueryR
 }
 
 func (c *decisionLogsClient) GetDecisions(ctx context.Context, in *GetDecisionsRequest, opts ...grpc.CallOption) (DecisionLogs_GetDecisionsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &DecisionLogs_ServiceDesc.Streams[0], "/aserto.decision_logs.v1.DecisionLogs/GetDecisions", opts...)
+	stream, err := c.cc.NewStream(ctx, &DecisionLogs_ServiceDesc.Streams[0], "/aserto.decision_logs.v2.DecisionLogs/GetDecisions", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func _DecisionLogs_ListDecisionLogs_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aserto.decision_logs.v1.DecisionLogs/ListDecisionLogs",
+		FullMethod: "/aserto.decision_logs.v2.DecisionLogs/ListDecisionLogs",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DecisionLogsServer).ListDecisionLogs(ctx, req.(*ListDecisionLogsRequest))
@@ -189,7 +189,7 @@ func _DecisionLogs_GetDecisionLog_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aserto.decision_logs.v1.DecisionLogs/GetDecisionLog",
+		FullMethod: "/aserto.decision_logs.v2.DecisionLogs/GetDecisionLog",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DecisionLogsServer).GetDecisionLog(ctx, req.(*GetDecisionLogRequest))
@@ -207,7 +207,7 @@ func _DecisionLogs_ListUsers_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aserto.decision_logs.v1.DecisionLogs/ListUsers",
+		FullMethod: "/aserto.decision_logs.v2.DecisionLogs/ListUsers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DecisionLogsServer).ListUsers(ctx, req.(*ListUsersRequest))
@@ -225,7 +225,7 @@ func _DecisionLogs_GetUser_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aserto.decision_logs.v1.DecisionLogs/GetUser",
+		FullMethod: "/aserto.decision_logs.v2.DecisionLogs/GetUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DecisionLogsServer).GetUser(ctx, req.(*GetUserRequest))
@@ -243,7 +243,7 @@ func _DecisionLogs_ExecuteQuery_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aserto.decision_logs.v1.DecisionLogs/ExecuteQuery",
+		FullMethod: "/aserto.decision_logs.v2.DecisionLogs/ExecuteQuery",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DecisionLogsServer).ExecuteQuery(ctx, req.(*ExecuteQueryRequest))
@@ -276,7 +276,7 @@ func (x *decisionLogsGetDecisionsServer) Send(m *GetDecisionsResponse) error {
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DecisionLogs_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "aserto.decision_logs.v1.DecisionLogs",
+	ServiceName: "aserto.decision_logs.v2.DecisionLogs",
 	HandlerType: (*DecisionLogsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -307,5 +307,5 @@ var DecisionLogs_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "aserto/decision-logs/v1/decision-logs.proto",
+	Metadata: "aserto/decision-logs/v2/decision_logs.proto",
 }
