@@ -24,8 +24,6 @@ var (
 	ErrAuthenticationFailed = errors.NewAsertoError("E30007", codes.FailedPrecondition, http.StatusUnauthorized, "authentication failed")
 	// Returned when a given parameter is incorrect (wrong format, value or type).
 	ErrInvalidArgument = errors.NewAsertoError("E30008", codes.InvalidArgument, http.StatusBadRequest, "invalid argument")
-	// Return if a user is not found.
-	ErrUserNotFound = errors.NewAsertoError("E30009", codes.NotFound, http.StatusNotFound, "user not found")
 	// Returned when a runtime query has an error.
 	ErrBadQuery = errors.NewAsertoError("E30010", codes.InvalidArgument, http.StatusBadRequest, "invalid query")
 	// Returned when a decision is invalid.
@@ -36,6 +34,4 @@ var (
 	ErrDirectoryObjectNotFound = errors.NewAsertoError("E30013", codes.NotFound, http.StatusNotFound, "directory object not found")
 	// Returned if the loaded policy is invalid.
 	ErrInvalidPolicy = errors.NewAsertoError("E30014", codes.Internal, http.StatusInternalServerError, "invalid policy")
-	// Returned when authorization has failed or is not possible.
-	ErrAuthorizationFailed = errors.NewAsertoError("E30015", codes.PermissionDenied, http.StatusUnauthorized, "authorization failed")
 )
