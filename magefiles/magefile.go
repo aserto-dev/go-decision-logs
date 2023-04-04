@@ -13,9 +13,10 @@ import (
 	"strings"
 
 	"github.com/aserto-dev/clui"
-	"github.com/aserto-dev/go-utils/fsutil"
 	"github.com/aserto-dev/mage-loot/buf"
+	"github.com/aserto-dev/mage-loot/common"
 	"github.com/aserto-dev/mage-loot/deps"
+	"github.com/aserto-dev/mage-loot/fsutil"
 	"github.com/aserto-dev/mage-loot/mage"
 	"github.com/aserto-dev/mage-loot/testutil"
 	"github.com/magefile/mage/mg"
@@ -41,6 +42,16 @@ func All() error {
 	mg.SerialDeps(Deps)
 
 	return nil
+}
+
+// Lint runs linting for the entire project.
+func Lint() error {
+	return common.Lint()
+}
+
+// Test runs all tests and generates a code coverage report.
+func Test() error {
+	return common.Test()
 }
 
 // Builds the aserto proto image
