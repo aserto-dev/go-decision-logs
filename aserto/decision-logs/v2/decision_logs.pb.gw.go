@@ -211,11 +211,7 @@ func request_DecisionLogs_ExecuteQuery_0(ctx context.Context, marshaler runtime.
 	var protoReq ExecuteQueryRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -228,11 +224,7 @@ func local_request_DecisionLogs_ExecuteQuery_0(ctx context.Context, marshaler ru
 	var protoReq ExecuteQueryRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -242,7 +234,7 @@ func local_request_DecisionLogs_ExecuteQuery_0(ctx context.Context, marshaler ru
 }
 
 var (
-	filter_DecisionLogs_GetDecisions_0 = &utilities.DoubleArray{Encoding: map[string]int{"policy_name": 0, "policyName": 1, "instance_label": 2, "instanceLabel": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
+	filter_DecisionLogs_GetDecisions_0 = &utilities.DoubleArray{Encoding: map[string]int{"policy_name": 0, "instance_label": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_DecisionLogs_GetDecisions_0(ctx context.Context, marshaler runtime.Marshaler, client DecisionLogsClient, req *http.Request, pathParams map[string]string) (DecisionLogs_GetDecisionsClient, runtime.ServerMetadata, error) {
@@ -300,6 +292,7 @@ func request_DecisionLogs_GetDecisions_0(ctx context.Context, marshaler runtime.
 // UnaryRPC     :call DecisionLogsServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterDecisionLogsHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterDecisionLogsHandlerServer(ctx context.Context, mux *runtime.ServeMux, server DecisionLogsServer) error {
 
 	mux.Handle("GET", pattern_DecisionLogs_ListDecisionLogs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -440,21 +433,21 @@ func RegisterDecisionLogsHandlerServer(ctx context.Context, mux *runtime.ServeMu
 // RegisterDecisionLogsHandlerFromEndpoint is same as RegisterDecisionLogsHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterDecisionLogsHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.DialContext(ctx, endpoint, opts...)
+	conn, err := grpc.NewClient(endpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
@@ -472,7 +465,7 @@ func RegisterDecisionLogsHandler(ctx context.Context, mux *runtime.ServeMux, con
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "DecisionLogsClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "DecisionLogsClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "DecisionLogsClient" to call the correct interceptors.
+// "DecisionLogsClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterDecisionLogsHandlerClient(ctx context.Context, mux *runtime.ServeMux, client DecisionLogsClient) error {
 
 	mux.Handle("GET", pattern_DecisionLogs_ListDecisionLogs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
