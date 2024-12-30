@@ -30,7 +30,7 @@ var (
 	ErrInvalidDecision = errors.NewAsertoError("E30011", codes.InvalidArgument, http.StatusBadRequest, "invalid decision")
 	// Returned when a runtime failed to load.
 	ErrBadRuntime = errors.NewAsertoError("E30012", codes.Unavailable, http.StatusServiceUnavailable, "runtime loading failed")
-	// Returned if object object id is not found in the directory.
+	// Returned if object id is not found in the directory.
 	ErrDirectoryObjectNotFound = errors.NewAsertoError("E30013", codes.NotFound, http.StatusNotFound, "directory object not found")
 	// Returned if the loaded policy is invalid.
 	ErrInvalidPolicy = errors.NewAsertoError("E30014", codes.Internal, http.StatusInternalServerError, "invalid policy")
