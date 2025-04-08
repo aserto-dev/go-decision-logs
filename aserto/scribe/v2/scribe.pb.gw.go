@@ -10,6 +10,7 @@ package scribe
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -24,12 +25,15 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_Scribe_WriteBatch_0(ctx context.Context, marshaler runtime.Marshaler, client ScribeClient, req *http.Request, pathParams map[string]string) (Scribe_WriteBatchClient, runtime.ServerMetadata, error) {
 	var metadata runtime.ServerMetadata
@@ -42,12 +46,12 @@ func request_Scribe_WriteBatch_0(ctx context.Context, marshaler runtime.Marshale
 	handleSend := func() error {
 		var protoReq WriteBatchRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -80,8 +84,7 @@ func request_Scribe_WriteBatch_0(ctx context.Context, marshaler runtime.Marshale
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterScribeHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterScribeHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ScribeServer) error {
-
-	mux.Handle("POST", pattern_Scribe_WriteBatch_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Scribe_WriteBatch_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -112,7 +115,6 @@ func RegisterScribeHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMu
 			}
 		}()
 	}()
-
 	return RegisterScribeHandler(ctx, mux, conn)
 }
 
@@ -128,14 +130,11 @@ func RegisterScribeHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "ScribeClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterScribeHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ScribeClient) error {
-
-	mux.Handle("POST", pattern_Scribe_WriteBatch_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Scribe_WriteBatch_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/aserto.scribe.v2.Scribe/WriteBatch", runtime.WithHTTPPathPattern("/aserto.scribe.v2.Scribe/WriteBatch"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/aserto.scribe.v2.Scribe/WriteBatch", runtime.WithHTTPPathPattern("/aserto.scribe.v2.Scribe/WriteBatch"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -146,11 +145,8 @@ func RegisterScribeHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Scribe_WriteBatch_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
